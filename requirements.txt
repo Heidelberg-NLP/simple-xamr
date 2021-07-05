@@ -1,0 +1,12 @@
+matplotlib==3.3.3
+pandas==1.2.0
+sklearn==0.0
+torch==1.7.1
+transformers==4.1.1
+numpy==1.19.2
+nltk==3.5
+easynmt
+langid==1.1.6
+amrlib
+sentence_transformers
+spacy==2.2
