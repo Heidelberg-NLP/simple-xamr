@@ -19,9 +19,11 @@ Based on these useful papers and projects:
    - [SOTA NMT System](https://github.com/UKPLab/EasyNMT)
    - [OPUS-MT (Tiedemann&Thottingal, 2020)](https://github.com/Helsinki-NLP/Opus-MT)
    - [Europarl Parallel Corpus](https://www.statmt.org/europarl/)
-  
+
 ## Setup
 Download [amrlib Parse T5 STOG model](https://github.com/bjascob/amrlib-models) and place the extracted files in the correct folder as stated in the description (``amrlib/data/model_stog``).
+Download the [LDC2020T07](https://catalog.ldc.upenn.edu/LDC2020T07) dataset and place it in folder `amr_2-four_translations`
+Download the [LDC2017T10](https://catalog.ldc.upenn.edu/LDC2017T10) dataset and place it in folder `abstract_meaning_representation_amr_2.0`
 
 Linux & Mac users:
 ```pip install -r requirements.txt```
@@ -30,17 +32,33 @@ Windows users:
    * ```pip install -r requirements.txt```
    * ```pip uninstall easynmt```
    * ```pip install --no-deps easynmt```
-
-## Run in Colab
+   
+To run on Colab:
 ```
-!git clone https://github.com/Yrgarcia/Multilingual-AMR-Parsing
+!git clone https://github.com/Yrgarcia/Cross-Lingual-AMR-Parsing
 import os
-os.chdir('/content/Multilingual-AMR-Parsing/')
+os.chdir('/content/Cross-Lingual-AMR-Parsing/')
 !wget https://github.com/bjascob/amrlib-models/releases/download/model_parse_t5-v0_1_0/model_parse_t5-v0_1_0.tar.gz
 !tar -xvzf model_parse_t5-v0_1_0.tar.gz
 !pip3 install -r requirements.txt
 ```
-Set the `AMR_mode_dir` variable to `/content/Multilingual-AMR-Parsing/model_parse_t5-v0_1_0` in  `__main__.py`.
+Set the `AMR_mode_dir` variable to `/content/Cross-Lingual-AMR-Parsing/model_parse_t5-v0_1_0` in  `__main__.py`.
+
+## Easy command line access
+
+Run:
+```python x_parse.py -lang <lang> -input_file <file>```
+
+-lang --- "de", "es", "it", or "zh"
+-input_file --- one of AMR 2.0's dev set files
+
+Example:
+```python x_parse.py -lang "es" -input_file "amr-release-2.0-amrs-test-bolt.sentences.ES.txt"```
+
+
+## Reproduce outputs from paper
+
+To reproduce the outputs from our paper, run ```python __main__.py```
 
 ### Translation
 Set `translate = True` in `__main__.py`.
@@ -51,9 +69,6 @@ Set `parseamr = True` in `__main__.py`.
 ### Evaluation
 Set `evaluate = True` in `__main__.py`. Set `unify_files = True` in `__main__.py` **only** if you are evaluating on the freshly parsed files. The files contained in `AMRgraphs` folder in this project are already truncated and unified. 
 
-Run:
-
-```!python __main__.py```
 
 ## Datasets and Models
 We employ the [LDC2020T07](https://catalog.ldc.upenn.edu/LDC2020T07) dataset, a multilingual dataset which "contains translations of the test split sentences from [LDC2017T10](https://catalog.ldc.upenn.edu/LDC2017T10), a total of 5,484 sentences or 1,371 sentences per language." Languages: Italian, Spanish, German, Mandarin Chinese.
