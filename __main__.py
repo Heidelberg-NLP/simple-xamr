@@ -23,7 +23,13 @@ if __name__ == '__main__':
     translations = sorted(os.listdir("translations"))  # where the translated files are stored
     gold_amr_dir = os.listdir("amr_2-four_translations/AMR")  # where the gold AMR graphs are stored
     amr_graphs = sorted(os.listdir("AMRgraphs"))  # where to store the parsed AMR graphs
-
+    
+    if not os.path.exists('translations'):
+        os.makedirs('translations')
+        
+    if not os.path.exists('AMRgraphs'):
+        os.makedirs('AMRgraphs')
+    
     categories = ["bolt", "consensus", "dfa", "proxy", "xinhua"]  # categories included in the dataset for each language
     languages = ["DE", "ES", "IT", "ZH"]  # languages included in the dataset
 
@@ -32,7 +38,7 @@ if __name__ == '__main__':
 
     translate = False
     parseamr = False
-    amr_gsii = True
+    amr_gsii = False
     evaluate = True
     unify_files = False
 

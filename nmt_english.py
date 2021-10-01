@@ -27,7 +27,7 @@ class Translator(object):
         # self.sentence_embeddings_gold
         # self.sentence_embeddings_translation
     
-    def load_sentences(self, to_translate_path, gold_path):
+    def load_sentences(self, to_translate_path, gold_path="None"):
         """
         Load sentences to translate and English gold sentenecs and store them
         as class variables.
@@ -50,11 +50,13 @@ class Translator(object):
         with open(self.to_translate_path, mode="r", encoding="utf-8") as fr:
             self.sentences_to_translate = fr.read().split("\n")
         
-        with open(gold_path, mode="r", encoding='utf-8') as fr:
-            self.gold_sentences = fr.read().split("\n")
-        
         print("Sentences to translate loaded from", self.to_translate_path)
-        print("Gold sentences loaded from", gold_path)
+        
+        if gold_path != "None":
+            with open(gold_path, mode="r", encoding='utf-8') as fr:
+                self.gold_sentences = fr.read().split("\n")
+                
+            print("Gold sentences loaded from", gold_path)
         
         # print(self.sentences_to_translate)
         # print(self.gold_sentences)
@@ -250,46 +252,46 @@ if __name__ == "__main__":
             
     """BACKTRANSLATION"""
     
-    source_sentences = sorted(os.listdir("amr_2-four_translations/data/"))
-    files_to_translate = sorted(os.listdir("translations/"))
+    # source_sentences = sorted(os.listdir("amr_2-four_translations/data/"))
+    # files_to_translate = sorted(os.listdir("translations/"))
     
-    target_languages = ['es', 'it', 'zh'] #'de', 
+    # target_languages = ['es', 'it', 'zh'] #'de', 
     
-    for target_language in target_languages:
-        if target_language == 'de':
-            german = [0, 4, 8, 12, 16]
-            files_to_translate_back = [files_to_translate[i] for i in german]
-            nmt_source_sentences = [source_sentences[i] for i in german]
-            print("GERMAN - files to translate:", files_to_translate_back, "\nGold files:", nmt_source_sentences)
+    # for target_language in target_languages:
+    #     if target_language == 'de':
+    #         german = [0, 4, 8, 12, 16]
+    #         files_to_translate_back = [files_to_translate[i] for i in german]
+    #         nmt_source_sentences = [source_sentences[i] for i in german]
+    #         print("GERMAN - files to translate:", files_to_translate_back, "\nGold files:", nmt_source_sentences)
             
-        elif target_language == 'es':
-            spanish= [1, 5, 9, 13, 17]
-            files_to_translate_back = [files_to_translate[i] for i in spanish]
-            nmt_source_sentences = [source_sentences[i] for i in spanish]
-            print("SPANISH - files:", files_to_translate_back)
+    #     elif target_language == 'es':
+    #         spanish= [1, 5, 9, 13, 17]
+    #         files_to_translate_back = [files_to_translate[i] for i in spanish]
+    #         nmt_source_sentences = [source_sentences[i] for i in spanish]
+    #         print("SPANISH - files:", files_to_translate_back)
            
-        elif target_language == 'it':    
-            italian = [2, 6, 10, 14, 18]
-            files_to_translate_back = [files_to_translate[i] for i in italian]
-            nmt_source_sentences = [source_sentences[i] for i in italian]
-            print("ITALIAN - files:", files_to_translate_back)
+    #     elif target_language == 'it':    
+    #         italian = [2, 6, 10, 14, 18]
+    #         files_to_translate_back = [files_to_translate[i] for i in italian]
+    #         nmt_source_sentences = [source_sentences[i] for i in italian]
+    #         print("ITALIAN - files:", files_to_translate_back)
             
-        elif target_language == 'zh':   
-            mandarin = [3, 7, 11, 15, 19]
-            files_to_translate_back = [files_to_translate[i] for i in mandarin]
-            nmt_source_sentences = [source_sentences[i] for i in mandarin]
-            print("MANDARIN - files:", files_to_translate_back)
+    #     elif target_language == 'zh':   
+    #         mandarin = [3, 7, 11, 15, 19]
+    #         files_to_translate_back = [files_to_translate[i] for i in mandarin]
+    #         nmt_source_sentences = [source_sentences[i] for i in mandarin]
+    #         print("MANDARIN - files:", files_to_translate_back)
         
         
-        for file_to_translate_back, source_sentence in zip(files_to_translate_back, nmt_source_sentences):
-            translator = Translator()
-            translator.load_sentences("translations/" + file_to_translate_back, "amr_2-four_translations/data/" + source_sentence)
-            translator.translate(source_language="en", target_language=target_language)
-            translator.save_translation("backtranslations/" + file_to_translate_back[:-4] + "_backtranslated.txt")
+    #     for file_to_translate_back, source_sentence in zip(files_to_translate_back, nmt_source_sentences):
+    #         translator = Translator()
+    #         translator.load_sentences("translations/" + file_to_translate_back, "amr_2-four_translations/data/" + source_sentence)
+    #         translator.translate(source_language="en", target_language=target_language)
+    #         translator.save_translation("backtranslations/" + file_to_translate_back[:-4] + "_backtranslated.txt")
         
-            translator.evaluate_bleu()
-            translator.evaluate_cosine_similarity()
+    #         translator.evaluate_bleu()
+    #         translator.evaluate_cosine_similarity()
             
-            with open("translation_evaluation.txt", "a", encoding='utf-8') as fa:
-                fa.write("\n---")
+    #         with open("translation_evaluation.txt", "a", encoding='utf-8') as fa:
+    #             fa.write("\n---")
             

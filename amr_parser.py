@@ -30,7 +30,7 @@ def read_file(filename):
     return lines
 
 
-def sent_to_graph(sent_list, path_to_model=None, verbose=False):
+def sent_to_graph(sent_list, path_to_model=None, verbose=False, device=None):
     """
     Parse english sentence to AMR graph.
 
@@ -48,7 +48,7 @@ def sent_to_graph(sent_list, path_to_model=None, verbose=False):
 
     """
     print("Parsing sentences to AMR...")
-    stog = amrlib.load_stog_model(model_dir=path_to_model)
+    stog = amrlib.load_stog_model(model_dir=path_to_model, device=device)
     print("Model loaded.")
     graphs = stog.parse_sents(sent_list)
     if verbose:
